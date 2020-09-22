@@ -3,7 +3,7 @@
 int main()
 {
     // create the window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "My window");
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -23,7 +23,7 @@ int main()
 	sf::CircleShape shape(50.f);
 
 // set the shape color to green
-shape.setFillColor(sf::Color(100, 250, 50));
+shape.setFillColor(sf::Color(50, 100, 100));
 
  window.draw(shape);
 	// end the current frame
