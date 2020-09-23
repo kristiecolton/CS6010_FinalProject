@@ -23,10 +23,10 @@ class spaceShip
     
     //these  things are to make fluid movement
     float velocity;
-    float maxPostiveVelocity=20;
-    float maxNegativeVelocity=-20;
-    float postiveAccleration=1;
-    float negativeAccleration=-1;
+    float maxPostiveVelocity=10;
+    float maxNegativeVelocity=-10;
+    float postiveAccleration=1.5;
+    float negativeAccleration=-1.5;
     // setting to zero function so it looks cool
     void velocityToZero()
     {
@@ -60,7 +60,7 @@ class spaceShip
     spaceShip(string imgPath, float x, float y) {
         // If image for texture not found, print an error
         if (!pTexture.loadFromFile(imgPath)) {
-            cout << "Error! Cannot find image." << endl;
+            cout << "Error! Cannot find image SpaceShip." << endl;
         }
         // Set the texture for the sprite
         pSprite.setTexture(pTexture);
