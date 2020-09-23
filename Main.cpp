@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 #include "GalacticaClass.cpp"
+#include "EnemiesClass.cpp"
+
 int main()
 {
   // create the window
