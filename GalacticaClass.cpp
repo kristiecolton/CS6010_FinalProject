@@ -1,10 +1,16 @@
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
 int main()
 {
+    sf::Texture spaceShipText;
+
+    if (!spaceShipText.loadFromFile("GalagaSpaceShip.png"))
+    {
+        std::cout<<"Your texture didnt load"<<std::endl;
+        
+    }
     // create the window
     sf::RenderWindow window(sf::VideoMode(1200, 800), "My window");
-
     // run the program as long as the window is open
     while (window.isOpen())
     {
