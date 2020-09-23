@@ -27,6 +27,9 @@ int main()
         x += 200;
     }
     
+    // Ok weird bug: if I create this enemy (but don't actuallly do anything with it), all the enemies in the Enemies vector are drawn properly (on line 72). If I delete this enemy, the texture of each enemy in the enemies vector disappears
+     Enemy enemy1 = Enemy("spaceinvader.png", 300, 300);
+
     // create enemy squad instance using vector of enemies
     EnemySquad myEnemySquad(enemies);
     
@@ -60,8 +63,6 @@ int main()
            // clear the window with black color
            window.clear(sf::Color::Black);
 
-       
-
        // set the shape color to green
        shape.setFillColor(sf::Color(50, 100, 100));
 
@@ -69,7 +70,7 @@ int main()
            
        // Draw the enemy squad in the window
        myEnemySquad.drawEnemySquad(window);
-        
+
        // end the current frame
        window.display();
        }
