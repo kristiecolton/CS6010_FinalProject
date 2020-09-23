@@ -17,15 +17,25 @@ int main()
 
     sf::CircleShape shape(50.f);
     
-    // create enemy
-    Enemy myEnemy("spaceinvader.png", 200., 200.);
+    // Create a vector of enemies
+    vector<Enemy> enemies;
+    float x = 500;
+    float y = 50;
+    for (int i = 0; i < 10; i++) {
+        Enemy myEnemy = Enemy("spaceinvader.png", x, y);
+        enemies.push_back(myEnemy);
+        x += 200;
+    }
+    
+    // create enemy squad instance using vector of enemies
+    EnemySquad myEnemySquad(enemies);
     
     // run the program as long as the window is open
     while (window.isOpen())
        {
            shape.move(sf::Vector2f(.001,0));
-           // check all the window's events that were triggered since the last iteration of the loop
            
+           // check all the window's events that were triggered since the last iteration of the loop
            sf::Event event;
            while (window.pollEvent(event))
            {
@@ -56,7 +66,10 @@ int main()
        shape.setFillColor(sf::Color(50, 100, 100));
 
        window.draw(shape);
-       myEnemy.drawEnemy(window);
+           
+       // Draw the enemy squad in the window
+       myEnemySquad.drawEnemySquad(window);
+        
        // end the current frame
        window.display();
        }
