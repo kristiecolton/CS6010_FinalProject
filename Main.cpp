@@ -12,10 +12,15 @@
 
 int main()
 {
-  // create the window
-       sf::RenderWindow window(sf::VideoMode(2800, 3000), "My window");
-       // run the program as long as the window is open
-      sf::CircleShape shape(50.f);
+    // create the window
+    sf::RenderWindow window(sf::VideoMode(2800, 3000), "My window");
+
+    sf::CircleShape shape(50.f);
+    
+    // create enemy
+    Enemy myEnemy("spaceinvader.png");
+    
+    // run the program as long as the window is open
     while (window.isOpen())
        {
            shape.move(sf::Vector2f(.001,0));
@@ -51,8 +56,9 @@ int main()
        shape.setFillColor(sf::Color(50, 100, 100));
 
        window.draw(shape);
+       myEnemy.drawEnemy(window);
        // end the current frame
-           window.display();
+       window.display();
        }
     return 0;
 }

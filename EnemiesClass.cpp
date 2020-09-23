@@ -29,6 +29,9 @@ public:
         }
         // Set the texture for the sprite
         pSprite.setTexture(pTexture);
+        
+        // Set the size of the sprite
+        pSprite.setScale(sf::Vector2f(0.2,0.2));
     }
     
     /* Takes a window (by reference) as an argument and draws sprite to window*/
