@@ -18,7 +18,7 @@ int main()
     sf::CircleShape shape(50.f);
     
     // create enemy
-    Enemy myEnemy("spaceinvader.png");
+    Enemy myEnemy("spaceinvader.png", 200., 200.);
     
     // run the program as long as the window is open
     while (window.isOpen())
