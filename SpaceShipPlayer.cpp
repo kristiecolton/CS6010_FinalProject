@@ -8,17 +8,18 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 sf::Texture spaceShipText;
-struct spaceShip
-{
-
-    
-    
-    
-    
-    void spriteMaker()
-    {
-        if (!spaceShipText.loadFromFile("GalagaSpaceShip.png"))
-        {
-        }
-    }
-};
+//struct spaceShip
+//{
+//
+//    
+//    
+//    
+//    
+//    void spriteMaker()
+//    {
+//        if (!spaceShipText.loadFromFile("GalagaSpaceShip.png"))
+//        {
+//            std::
+//        }
+//    }
+//};
