@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include"EnemiesClass.cpp"
 using namespace std;
 class Projectiles
 {public:
@@ -41,7 +42,27 @@ class Projectiles
            
        }
     
-    
+   
+    bool checkBoundandMove(float x,vector<Enemy> group)
+    {
+        bool flag = false;
+        //if the sprite hits the top of the screen flag false
+        if( pSprite.getPosition().y<0)
+        {
+            //moving 0 didnt work so I FORCED IT TO BE THERE
+            flag=true;
+        }
+//        for (int i=0;i<group.size();i++)
+//        {
+//            if(group[i].getSprite().getGlobalBounds().intersects(pSprite.getGlobalBounds()));
+//            {
+//                flag=true;
+//                return flag;
+//            }
+//        }
+        pSprite.move(0, -2);
+        return flag;
+    }
     
     sf::Texture* pTexture;
     sf::Sprite pSprite;

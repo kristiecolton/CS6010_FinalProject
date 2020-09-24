@@ -7,10 +7,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
-#include "GalacticaClass.cpp"
-#include "EnemiesClass.cpp"
 #include "SpaceShipPlayer.cpp"
 #include "Projectiles.cpp"
+#include"GalacticaClass.cpp"
 int main()
 {
     // create the window
@@ -20,7 +19,6 @@ int main()
     //create my space ship boi
    
     spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
-       Projectiles spaceShipMissle=Projectiles("spaceShipProjectile.png",1600,(1400));
     vector<Projectiles> spaceShipMissles;
     vector<Projectiles> enemyLasers;
     // Create a vector of enemies
@@ -90,7 +88,7 @@ int main()
                     }
                  if (event.key.code==sf::Keyboard::W)
                  {
-                     Projectiles myProjectiles =Projectiles("spaceShipProjectile.png",1600,(1400));
+                     Projectiles myProjectiles =Projectiles("spaceShipProjectile.png",(player.pSprite.getPosition().x+42),(player.pSprite.getPosition().y-35));
                      spaceShipMissles.push_back(myProjectiles);
                      
                      
@@ -119,11 +117,27 @@ int main()
 
         //Draws the spaceShip
         player.drawSpaceShip(window);
+           vector<int> checkingMissles={};
         for (int i=0;i<spaceShipMissles.size();i++)
         {
+            bool flag=false;
            spaceShipMissles[i].drawProjectile(window);
+            flag=spaceShipMissles[i].checkBoundandMove(windowX,myEnemySquad.myEnemySquad);
+            if (flag==true)
+            {
+            checkingMissles.push_back(i);
+            }
         }
-        spaceShipMissle.drawProjectile(window);
+           for (int i=0;i<checkingMissles.size();i++)
+           {
+               //erase the missles when they hit something that destories it
+               //we had a problem that when you delete in your ShipMisssles vector
+               //you would shift all the postions right
+               //causing you checking missles to be one off after the first itteration
+               //so -i big brain time
+               spaceShipMissles.erase(spaceShipMissles.begin()+(checkingMissles[i]-i));
+           }
+           
        // end the current frame
        window.display();
            
