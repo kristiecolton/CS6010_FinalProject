@@ -25,12 +25,15 @@ public:
     /* Constructor */
     // Takes an imgPath to use as sprite texture, and an x and y coordinate position to place sprite
     Enemy(string imgPath, float x, float y) {
+        // Look up texture constructor
+        pTexture = new sf::Texture;
+        
         // If image for texture not found, print an error
-        if (!pTexture.loadFromFile(imgPath)) {
+        if (!pTexture->loadFromFile(imgPath)) {
             cout << "Error! Cannot find image." << endl;
         }
         // Set the texture for the sprite
-        pSprite.setTexture(pTexture);
+        pSprite.setTexture(*pTexture);
         
         // Set the size of the sprite
         pSprite.setScale(sf::Vector2f(0.1,0.1));
@@ -46,9 +49,13 @@ public:
         window.draw(pSprite);
     }
     
+    sf::Sprite getSprite() {
+        return pSprite;
+    }
+    
 private:
     
-    sf::Texture pTexture;
+    sf::Texture* pTexture;
     sf::Sprite pSprite;
     bool isShot;
 };
@@ -75,6 +82,10 @@ public:
         for (Enemy e : myEnemySquad) {
             e.drawEnemy(window);
         }
+    }
+    
+    Enemy operator[](int index) {
+        return myEnemySquad[index];
     }
         
     
