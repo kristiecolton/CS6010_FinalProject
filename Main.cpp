@@ -146,7 +146,7 @@ int main()
 
 //    cout<< myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().top+myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().height<<"right"<<endl;
 //       // end the current frame
-//       window.display();
+       window.display();
            
        }
     return 0;
