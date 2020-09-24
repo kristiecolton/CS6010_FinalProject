@@ -123,6 +123,12 @@ int main()
             bool flag=false;
            spaceShipMissles[i].drawProjectile(window);
             flag=spaceShipMissles[i].checkBoundandMove(windowX,myEnemySquad.myEnemySquad);
+
+            
+            
+            //test the boundry of the missles PLEASE SHOOT ONLY ONE
+//            cout<< spaceShipMissles[i].pSprite.getGlobalBounds().top<<"left"<<endl;
+        
             if (flag==true)
             {
             checkingMissles.push_back(i);
@@ -137,9 +143,10 @@ int main()
                //so -i big brain time
                spaceShipMissles.erase(spaceShipMissles.begin()+(checkingMissles[i]-i));
            }
-           
-       // end the current frame
-       window.display();
+
+//    cout<< myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().top+myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().height<<"right"<<endl;
+//       // end the current frame
+//       window.display();
            
        }
     return 0;

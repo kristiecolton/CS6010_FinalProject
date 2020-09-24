@@ -52,14 +52,14 @@ class Projectiles
             //moving 0 didnt work so I FORCED IT TO BE THERE
             flag=true;
         }
-//        for (int i=0;i<group.size();i++)
-//        {
+        for (int i=0;i<group.size();i++)
+        {
 //            if(group[i].getSprite().getGlobalBounds().intersects(pSprite.getGlobalBounds()));
 //            {
 //                flag=true;
 //                return flag;
 //            }
-//        }
+        }
         pSprite.move(0, -2);
         return flag;
     }
