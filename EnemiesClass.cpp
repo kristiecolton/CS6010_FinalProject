@@ -17,6 +17,8 @@ class Enemy
 {
 public:
     
+    sf::Sprite pSprite;
+    
     /* Default Constructor */
     Enemy() {
         
@@ -56,7 +58,6 @@ public:
 private:
     
     sf::Texture* pTexture;
-    sf::Sprite pSprite;
     bool isShot;
 };
 
@@ -65,6 +66,11 @@ class EnemySquad {
 public:
     
     vector<Enemy> myEnemySquad;
+    float negVelocity = -0.6;
+    float posVelocity = 0.6;
+    // Initialize velocity in positive direction
+    float velocity = posVelocity;
+    
     
     /* Default Constructor */
     EnemySquad() {
@@ -86,6 +92,26 @@ public:
     
     Enemy operator[](int index) {
         return myEnemySquad[index];
+    }
+    
+    void checkBoundandMove(float x)
+    {
+        // Check that left-most enemy is in bounds
+        //the 25 is to keep it in the window you see
+        if(myEnemySquad[0].pSprite.getPosition().x<25)
+        {
+            // Move in positive direction
+            velocity = posVelocity;
+        }
+        //the minus is to keep it in the window you see
+        else if (myEnemySquad[myEnemySquad.size() - 1].pSprite.getPosition().x>x-125)
+        {
+            velocity = negVelocity;
+        }
+        for (int i = 0; i < myEnemySquad.size(); i++) {
+           myEnemySquad[i].pSprite.move(velocity, 0);
+        }
+        
     }
         
     

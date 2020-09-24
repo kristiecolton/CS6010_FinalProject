@@ -109,6 +109,8 @@ int main()
             player.velocityToZero();
             player.checkBoundandMove(windowX);
        
+           // Move the enemy squad
+           myEnemySquad.checkBoundandMove(windowX);
            
         //Draws the spaceShip
            player.drawSpaceShip(window);
