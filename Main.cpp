@@ -21,6 +21,8 @@ int main()
    
     spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
        Projectiles spaceShipMissle=Projectiles("spaceShipProjectile.png",1600,(1400));
+    vector<Projectiles> spaceShipMissles;
+    vector<Projectiles> enemyLasers;
     // Create a vector of enemies
     vector<Enemy> enemies;
     float x = 500;
@@ -88,6 +90,9 @@ int main()
                     }
                  if (event.key.code==sf::Keyboard::W)
                  {
+                     Projectiles myProjectiles =Projectiles("spaceShipProjectile.png",1600,(1400));
+                     spaceShipMissles.push_back(myProjectiles);
+                     
                      
                  }
                 }
@@ -106,18 +111,22 @@ int main()
         //slowly changes ship speeITS SUPER RAD
           //needs to be in this or the players speed looks like shit
            //KNOWN BUG some rounding issue is causing sometimes the ship to driffed right
-            player.velocityToZero();
-            player.checkBoundandMove(windowX);
-       
-           // Move the enemy squad
-           myEnemySquad.checkBoundandMove(windowX);
-           
+        player.velocityToZero();
+        player.checkBoundandMove(windowX);
+
+        // Move the enemy squad
+        myEnemySquad.checkBoundandMove(windowX);
+
         //Draws the spaceShip
-           player.drawSpaceShip(window);
-           
-           spaceShipMissle.drawProjectile(window);
+        player.drawSpaceShip(window);
+        for (int i=0;i<spaceShipMissles.size();i++)
+        {
+           spaceShipMissles[i].drawProjectile(window);
+        }
+        spaceShipMissle.drawProjectile(window);
        // end the current frame
        window.display();
+           
        }
     return 0;
 }

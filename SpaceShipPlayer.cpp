@@ -23,10 +23,10 @@ class spaceShip
     
     //these  things are to make fluid movement
     float velocity;
-    float maxPostiveVelocity=10;
-    float maxNegativeVelocity=-10;
-    float postiveAccleration=1.5;
-    float negativeAccleration=-1.5;
+    float maxPostiveVelocity=20;
+    float maxNegativeVelocity=-20;
+    float postiveAccleration=2;
+    float negativeAccleration=-2;
     // setting to zero function so it looks cool
     void velocityToZero()
     {
