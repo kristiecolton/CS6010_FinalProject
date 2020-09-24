@@ -20,15 +20,18 @@ class Projectiles
     //USE RIGHT IMGPATH FOR ENEMY AND PLAYER
 
     Projectiles(string imgPath, float x, float y) {
-           
+          
+        // Look up texture constructor
+        pTexture = new sf::Texture;
+        
         // If image for texture not found, print an error
         
         // If image for texture not found, print an error
-            if (!pTexture.loadFromFile(imgPath)) {
+            if (!pTexture->loadFromFile(imgPath)) {
                 cout << "Error! Cannot find image Projectile in "<< imgPath<<"." << endl;
             }
            // Set the texture for the sprite
-           pSprite.setTexture(pTexture);
+           pSprite.setTexture(*pTexture);
            
            // Set the size of the sprite
            pSprite.setScale(sf::Vector2f(0.05,0.05));
@@ -40,7 +43,7 @@ class Projectiles
     
     
     
-    sf::Texture pTexture;
+    sf::Texture* pTexture;
     sf::Sprite pSprite;
     //to kill the missle when it hits something
     bool hasHit;
