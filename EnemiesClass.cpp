@@ -6,7 +6,6 @@
 //
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <stdio.h>
 #include <string>
 
 using namespace std;
@@ -111,9 +110,7 @@ public:
         for (int i = 0; i < myEnemySquad.size(); i++) {
            myEnemySquad[i].pSprite.move(velocity, 0);
         }
-        
     }
-        
     
 private:
     

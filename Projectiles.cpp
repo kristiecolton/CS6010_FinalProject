@@ -21,8 +21,6 @@ class Projectiles
 
     Projectiles(string imgPath, float x, float y) {
            
-        
-        
         // If image for texture not found, print an error
         
         // If image for texture not found, print an error
@@ -41,13 +39,16 @@ class Projectiles
        }
     
     
+    
     sf::Texture pTexture;
     sf::Sprite pSprite;
     //to kill the missle when it hits something
     bool hasHit;
+    
     void drawProjectile(sf::RenderWindow &window)
        {
            window.draw(pSprite);
        }
+    
     
 };
