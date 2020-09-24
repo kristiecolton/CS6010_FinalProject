@@ -21,7 +21,8 @@ class Projectiles
     
     //USE RIGHT IMGPATH FOR ENEMY AND PLAYER
 
-    Projectiles(string imgPath, float x, float y) {
+    Projectiles(string imgPath, float x, float y)
+    {
           
         // Look up texture constructor
         pTexture = new sf::Texture;
@@ -108,4 +109,5 @@ class Projectiles
          return flag;
      }
     
+   
 };

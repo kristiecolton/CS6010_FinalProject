@@ -119,10 +119,14 @@ public:
         else if (myEnemySquad[myEnemySquad.size() - 1].pSprite.getPosition().x>x-125)
         {
             velocity = negVelocity;
+            for (int i = 0; i < myEnemySquad.size(); i++) {
+                myEnemySquad[i].pSprite.move(0, 20);
+            }
         }
         for (int i = 0; i < myEnemySquad.size(); i++) {
-           myEnemySquad[i].pSprite.move(velocity, 0);
+            myEnemySquad[i].pSprite.move(velocity, 0);
         }
+        
     }
     
 private:

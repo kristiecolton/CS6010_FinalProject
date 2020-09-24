@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 #include"GalacticaClass.cpp"
+#include <SFML/Audio.hpp>
+#include "Sounds.cpp"
 int main()
 {
     // create the window
@@ -15,8 +17,14 @@ int main()
     float windowY=3000;
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "My window");
     galacticaGame game;
+    sf::Music music;
+    if (!music.openFromFile("unprepared.ogg"))
+        return -1; // error
+    music.play();
+    music.setVolume(60);
     //create my space ship boi
-   
+    soundEffect pew;
+    pew.sound.setVolume(20);
     spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
     vector<Projectiles> spaceShipMissles;
     vector<Projectiles> enemyLasers;
@@ -24,10 +32,28 @@ int main()
     vector<Enemy> enemies;
     float x = 500;
     float y = 50;
-    for (int i = 0; i < 10; i++) {
-        Enemy myEnemy = Enemy("spaceinvader.png", x, y);
+    float z = 500;
+    float k = 500;
+    for (int i = 1; i < 28; i++)
+    {
+        Enemy myEnemy;
+        if (i<10)
+        {
+        myEnemy = Enemy("spaceinvader.png", x, y);
+             x += 200;
+        }
+        else if (i<19)
+        {
+            myEnemy = Enemy("spaceinvader2.png", z, y+150);
+            z+=200;
+        }
+        else
+        {
+            myEnemy = Enemy("spaceinvader.png", k, y+300);
+            k+=200;
+        }
         enemies.push_back(myEnemy);
-        x += 200;
+       
     }
   
     
@@ -86,6 +112,7 @@ int main()
                     {
                      Projectiles myProjectiles =Projectiles("spaceShipProjectile.png",(player.pSprite.getPosition().x+42),(player.pSprite.getPosition().y-35));
                      spaceShipMissles.push_back(myProjectiles);
+                        pew.sound.play();
                     }
                    
                 }
@@ -97,42 +124,25 @@ int main()
                 
            }
           
-           // clear the window with black color
-           window.clear(sf::Color::Black);
-
-       // set the shape color to green
+            // clear the window with black color
+            window.clear(sf::Color::Black);
+            // Draw the enemy squad in the window
+            myEnemySquad.drawEnemySquad(window);
+            player.checkBoundandMove(windowX);
+            // Move the enemy squad
+            myEnemySquad.checkBoundandMove(windowX);
+            //Shooting for the enemies with a random generator
+            Projectiles enemyShoot;
+            game.enemyShooter(myEnemySquad, enemyLasers);
+            //Draws the spaceShip
+            player.drawSpaceShip(window);
            
-       // Draw the enemy squad in the window
-       myEnemySquad.drawEnemySquad(window);
-        //slowly changes ship speedITS SUPER RAD
-       
-        player.checkBoundandMove(windowX);
-
-        // Move the enemy squad
-        myEnemySquad.checkBoundandMove(windowX);
-        //Shooting for the enemies with a random generator
-           for (int i=0;i<myEnemySquad.myEnemySquad.size();i++)
-           {
-               if (myEnemySquad[i].randomGeneratorForEnemies()&&myEnemySquad[i].isShot==false)
-               {
-                   Projectiles enemyLaser =Projectiles("enemyProjectile.png",(myEnemySquad[i].pSprite.getPosition().x+42),(myEnemySquad[i].pSprite.getPosition().y+35));
-                   enemyLasers.push_back(enemyLaser);
-               }
-           }
-        //Draws the spaceShip
-        player.drawSpaceShip(window);
-           vector<int> checkingProjectiles={};
+        vector<int> checkingProjectiles={};
         for (int i=0;i<spaceShipMissles.size();i++)
         {
             bool flag=false;
            spaceShipMissles[i].drawProjectile(window);
             flag=spaceShipMissles[i].checkBoundandMove(windowX,myEnemySquad.myEnemySquad);
-
-            
-            
-            //test the boundry of the missles PLEASE SHOOT ONLY ONE
-//            cout<< spaceShipMissles[i].pSprite.getGlobalBounds().top<<"left"<<endl;
-        
             if (flag==true)
             {
             checkingProjectiles.push_back(i);
@@ -148,28 +158,24 @@ int main()
                spaceShipMissles.erase(spaceShipMissles.begin()+(checkingProjectiles[i]-i));
            }
            
-           
-           
-           
            //resetingPROJECTILES FOR LASERS
-           checkingProjectiles={};
-            for (int i=0;i<enemyLasers.size();i++)
-            {
+       checkingProjectiles={};
+        for (int i=0;i<enemyLasers.size();i++)
+        {
             bool flag=false;
             flag=enemyLasers[i].checkBoundandMoveLaser(windowY,player);
             enemyLasers[i].drawProjectile(window);
-                if (flag==true)
-                {
-                checkingProjectiles.push_back(i);
-                }
-            }
-            for (int i=0;i<checkingProjectiles.size();i++)
+            if (flag==true)
             {
-                enemyLasers.erase(enemyLasers.begin()+(checkingProjectiles[i]-i));
+            checkingProjectiles.push_back(i);
             }
+        }
+        for (int i=0;i<checkingProjectiles.size();i++)
+        {
+            enemyLasers.erase(enemyLasers.begin()+(checkingProjectiles[i]-i));
+        }
 
                        
-//    cout<< myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().top+myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().height<<"right"<<endl;
 //       // end the current frame
        window.display();
            if (player.isShot)

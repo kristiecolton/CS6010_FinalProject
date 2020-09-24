@@ -27,8 +27,8 @@ class spaceShip
     float velocity;
     float maxPostiveVelocity=20;
     float maxNegativeVelocity=-20;
-    float postiveAccleration=1;
-    float negativeAccleration=-1;
+    float postiveAccleration=2;
+    float negativeAccleration=-2;
     // setting to zero function so it looks cool
     void velocityToZero()
     {
