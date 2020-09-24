@@ -9,14 +9,18 @@
 #include <SFML/Graphics.hpp>
 #include "GalacticaClass.cpp"
 #include "EnemiesClass.cpp"
-
+#include "SpaceShipPlayer.cpp"
+#include "Projectiles.cpp"
 int main()
 {
     // create the window
-    sf::RenderWindow window(sf::VideoMode(2800, 3000), "My window");
+    float windowX=2800;
+    sf::RenderWindow window(sf::VideoMode(windowX, 3000), "My window");
 
-    sf::CircleShape shape(50.f);
-    
+    //create my space ship boi
+   
+    spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
+       Projectiles spaceShipMissle=Projectiles("spaceShipProjectile.png",1600,(1400));
     // Create a vector of enemies
     vector<Enemy> enemies;
     float x = 500;
@@ -26,7 +30,11 @@ int main()
         enemies.push_back(myEnemy);
         x += 200;
     }
+  
     
+    // Ok weird bug: if I create this enemy (but don't actuallly do anything with it), all the enemies in the Enemies vector are drawn properly (on line 72). If I delete this enemy, the texture of each enemy in the enemies vector disappears
+     Enemy enemy1 = Enemy("spaceinvader.png", 300, 300);
+
     // create enemy squad instance using vector of enemies
     EnemySquad myEnemySquad(enemies);
     
@@ -46,27 +54,69 @@ int main()
                if (event.type == sf::Event::KeyPressed)
                 {
                     if (event.key.code==sf::Keyboard::D)
-                    {
-                        shape.move(sf::Vector2f(5,0));
+                    {;
+
+                        //this if statment sees if the key is pressed and
+                        //keeps the speed to a max velocity
+                        if (event.key.code==sf::Keyboard::D&& player.velocity<player.maxPostiveVelocity)
+                        {
+                            //the velocity and the accleration are in
+                            //the class
+                            player.velocity+=player.postiveAccleration;
+                            player.checkBoundandMove(windowX);
+                        }
+                        else
+                        {
+                            //keeps the thing moveing after reaching maxVelocity
+                            player.checkBoundandMove(windowX);
+                        }
+                
                     }
                     if (event.key.code==sf::Keyboard::A)
                     {
-                        shape.move(sf::Vector2f(-5,0));
+                        
+                        //flip all the signs
+                        if (event.key.code==sf::Keyboard::A&& player.velocity>player.maxNegativeVelocity)
+                        {
+                            //the velocity and the accleration are in
+                            //the class
+                            player.velocity+=player.negativeAccleration;
+                             player.checkBoundandMove(windowX);
+                        }
+                        else
+                        {
+                            //keeps the thing moveing after reaching maxVelocity
+                             player.checkBoundandMove(windowX);
+                        }
                     }
+                 if (event.key.code==sf::Keyboard::W)
+                 {
+                     
+                 }
                 }
+              
+           
+                
            }
 
            // clear the window with black color
            window.clear(sf::Color::Black);
 
        // set the shape color to green
-       shape.setFillColor(sf::Color(50, 100, 100));
-
-       window.draw(shape);
            
        // Draw the enemy squad in the window
        myEnemySquad.drawEnemySquad(window);
+        //slowly changes ship speeITS SUPER RAD
+          //needs to be in this or the players speed looks like shit
+           //KNOWN BUG some rounding issue is causing sometimes the ship to driffed right
+            player.velocityToZero();
+            player.checkBoundandMove(windowX);
+       
            
+        //Draws the spaceShip
+           player.drawSpaceShip(window);
+           
+           spaceShipMissle.drawProjectile(window);
        // end the current frame
        window.display();
        }
