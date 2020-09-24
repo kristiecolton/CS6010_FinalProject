@@ -7,15 +7,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
-#include "SpaceShipPlayer.cpp"
-#include "Projectiles.cpp"
 #include"GalacticaClass.cpp"
 int main()
 {
     // create the window
     float windowX=2800;
-    sf::RenderWindow window(sf::VideoMode(windowX, 3000), "My window");
-
+    float windowY=3000;
+    sf::RenderWindow window(sf::VideoMode(windowX, windowY), "My window");
+    galacticaGame game;
     //create my space ship boi
    
     spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
@@ -50,8 +49,10 @@ int main()
                }
                if (event.type == sf::Event::KeyPressed)
                 {
+
+                      
                     if (event.key.code==sf::Keyboard::D)
-                    {;
+                    {
 
                         //this if statment sees if the key is pressed and
                         //keeps the speed to a max velocity
@@ -62,14 +63,8 @@ int main()
                             player.velocity+=player.postiveAccleration;
                             player.checkBoundandMove(windowX);
                         }
-                        else
-                        {
-                            //keeps the thing moveing after reaching maxVelocity
-                            player.checkBoundandMove(windowX);
-                        }
-                
                     }
-                    if (event.key.code==sf::Keyboard::A)
+                    else if (event.key.code==sf::Keyboard::A)
                     {
                         
                         //flip all the signs
@@ -86,19 +81,22 @@ int main()
                              player.checkBoundandMove(windowX);
                         }
                     }
-                 if (event.key.code==sf::Keyboard::W)
-                 {
+
+                    else if (event.key.code==sf::Keyboard::W)
+                    {
                      Projectiles myProjectiles =Projectiles("spaceShipProjectile.png",(player.pSprite.getPosition().x+42),(player.pSprite.getPosition().y-35));
                      spaceShipMissles.push_back(myProjectiles);
-                     
-                     
-                 }
+                    }
+                   
                 }
-              
+              else
+              {
+                  player.velocityToZero();
+              }
            
                 
            }
-
+          
            // clear the window with black color
            window.clear(sf::Color::Black);
 
@@ -106,18 +104,24 @@ int main()
            
        // Draw the enemy squad in the window
        myEnemySquad.drawEnemySquad(window);
-        //slowly changes ship speeITS SUPER RAD
-          //needs to be in this or the players speed looks like shit
-           //KNOWN BUG some rounding issue is causing sometimes the ship to driffed right
-        player.velocityToZero();
+        //slowly changes ship speedITS SUPER RAD
+       
         player.checkBoundandMove(windowX);
 
         // Move the enemy squad
         myEnemySquad.checkBoundandMove(windowX);
-
+        //Shooting for the enemies with a random generator
+           for (int i=0;i<myEnemySquad.myEnemySquad.size();i++)
+           {
+               if (myEnemySquad[i].randomGeneratorForEnemies()&&myEnemySquad[i].isShot==false)
+               {
+                   Projectiles enemyLaser =Projectiles("enemyProjectile.png",(myEnemySquad[i].pSprite.getPosition().x+42),(myEnemySquad[i].pSprite.getPosition().y+35));
+                   enemyLasers.push_back(enemyLaser);
+               }
+           }
         //Draws the spaceShip
         player.drawSpaceShip(window);
-           vector<int> checkingMissles={};
+           vector<int> checkingProjectiles={};
         for (int i=0;i<spaceShipMissles.size();i++)
         {
             bool flag=false;
@@ -131,23 +135,51 @@ int main()
         
             if (flag==true)
             {
-            checkingMissles.push_back(i);
+            checkingProjectiles.push_back(i);
             }
         }
-           for (int i=0;i<checkingMissles.size();i++)
+           for (int i=0;i<checkingProjectiles.size();i++)
            {
                //erase the missles when they hit something that destories it
                //we had a problem that when you delete in your ShipMisssles vector
                //you would shift all the postions right
                //causing you checking missles to be one off after the first itteration
                //so -i big brain time
-               spaceShipMissles.erase(spaceShipMissles.begin()+(checkingMissles[i]-i));
+               spaceShipMissles.erase(spaceShipMissles.begin()+(checkingProjectiles[i]-i));
            }
+           
+           
+           
+           
+           //resetingPROJECTILES FOR LASERS
+           checkingProjectiles={};
+            for (int i=0;i<enemyLasers.size();i++)
+            {
+            bool flag=false;
+            flag=enemyLasers[i].checkBoundandMoveLaser(windowY,player);
+            enemyLasers[i].drawProjectile(window);
+                if (flag==true)
+                {
+                checkingProjectiles.push_back(i);
+                }
+            }
+            for (int i=0;i<checkingProjectiles.size();i++)
+            {
+                enemyLasers.erase(enemyLasers.begin()+(checkingProjectiles[i]-i));
+            }
 
+                       
 //    cout<< myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().top+myEnemySquad.myEnemySquad[0].pSprite.getGlobalBounds().height<<"right"<<endl;
 //       // end the current frame
        window.display();
-           
+           if (player.isShot)
+           {
+               window.close();
+           }
+           if (game.winChecker(myEnemySquad.myEnemySquad))
+           {
+               window.close();
+           }
        }
     return 0;
 }

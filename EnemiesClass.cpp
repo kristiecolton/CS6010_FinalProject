@@ -15,7 +15,7 @@ using namespace std;
 class Enemy
 {
 public:
-    
+    bool isShot;
     sf::Sprite pSprite;
     
     /* Default Constructor */
@@ -43,7 +43,16 @@ public:
         pSprite.setPosition(x, y);
         
     }
-    
+    //For Shooting
+       bool randomGeneratorForEnemies()
+        {
+            int rand= std::rand()%10000;
+            if (rand==1)
+            {
+                return true;
+            }
+            return false;
+        }
     /* Draw sprite to a given window reference*/
     void drawEnemy(sf::RenderWindow &window)
     {
@@ -57,7 +66,7 @@ public:
 private:
     
     sf::Texture* pTexture;
-    bool isShot;
+    
 };
 
 
@@ -80,12 +89,16 @@ public:
     EnemySquad(vector<Enemy> enemies) {
         myEnemySquad = enemies;
     }
-    
+   
     
     void drawEnemySquad(sf::RenderWindow &window)
     {
-        for (Enemy e : myEnemySquad) {
+        for (Enemy e : myEnemySquad)
+        {
+            if (e.isShot==false)
+            {
             e.drawEnemy(window);
+            }
         }
     }
     

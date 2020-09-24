@@ -10,6 +10,7 @@
 using namespace std;
 class spaceShip
 {
+    
 //default constructor
     spaceShip() {
         
@@ -19,25 +20,26 @@ class spaceShip
     // using the same logic as your enemy
     public:
     //have to make this public so you can move it
+    bool isShot;
     sf::Sprite pSprite;
     
     //these  things are to make fluid movement
     float velocity;
     float maxPostiveVelocity=20;
     float maxNegativeVelocity=-20;
-    float postiveAccleration=2;
-    float negativeAccleration=-2;
+    float postiveAccleration=1;
+    float negativeAccleration=-1;
     // setting to zero function so it looks cool
     void velocityToZero()
     {
         if (velocity>0)
         {
-            //the computer itterates to fast for this to be bigger
-            velocity+=-.025;
+            //the co mputer itterates to fast for this to be bigger
+            velocity*=.75;
         }
         if(velocity<0)
         {
-            velocity+=.025;
+            velocity*=.75;
         }
         
         
@@ -76,13 +78,16 @@ class spaceShip
     /* Draw sprite to a given window reference*/
     void drawSpaceShip(sf::RenderWindow &window)
     {
+        if(isShot==false)
+        {
         window.draw(pSprite);
+        }
     }
     
 private:
     
     sf::Texture pTexture;
     
-    bool isShot;
+    
 };
 
