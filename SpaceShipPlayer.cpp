@@ -47,7 +47,7 @@ public:
            
         // Set the position of the sprite
         pSprite.setPosition(x, y);
-           
+           isShot=false;
     }
     
     // Decelerate Spaceship smoothly
@@ -80,9 +80,12 @@ public:
             // Force spaceship to remain in position
             pSprite.setPosition(x-125,1400);
         }
+
         
+
         pSprite.move(velocity, 0);
     }
+
     
     /* Draw Spaceship to a given window reference*/
     void drawSpaceShip(sf::RenderWindow &window)
