@@ -8,9 +8,13 @@
 #include <stdio.h>
 #include <SFML/Audio.hpp>
 using namespace std;
+
 struct soundEffect
 {
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
     
+    /* Default Constructor */
     soundEffect()
     {
         if (!buffer.loadFromFile("pew.wav"))
@@ -19,14 +23,7 @@ struct soundEffect
         }
         
         sound.setBuffer(buffer);
-
     }
-    sf::SoundBuffer buffer;
-    sf::Sound sound;
     
 };
-struct Music
-{
-    
-    
-};
+

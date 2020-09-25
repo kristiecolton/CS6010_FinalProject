@@ -22,7 +22,7 @@ int main()
         return -1; // error
     music.play();
     music.setVolume(60);
-    //create my space ship boi
+//    create my space ship boi
     soundEffect pew;
     pew.sound.setVolume(20);
     spaceShip player=spaceShip("GalagaSpaceShip.png",1450,1400);
@@ -142,10 +142,12 @@ int main()
         {
             bool flag=false;
            spaceShipMissles[i].drawProjectile(window);
+            // check if missile has shot enemy or exited screen. if shot or missile reaches end of screen, flag=true
             flag=spaceShipMissles[i].checkBoundandMove(windowX,myEnemySquad.myEnemySquad);
             if (flag==true)
             {
-            checkingProjectiles.push_back(i);
+                // The index of the missiles that should disappear are stored in this vector
+                checkingProjectiles.push_back(i);
             }
         }
            for (int i=0;i<checkingProjectiles.size();i++)
@@ -162,21 +164,23 @@ int main()
        checkingProjectiles={};
         for (int i=0;i<enemyLasers.size();i++)
         {
+            // Check if enemy laser hits Spaceship or exits screen. It yes, flag = true
             bool flag=false;
             flag=enemyLasers[i].checkBoundandMoveLaser(windowY,player);
             enemyLasers[i].drawProjectile(window);
             if (flag==true)
             {
-            checkingProjectiles.push_back(i);
+                // Add the index of all lasers that exit screeen or hit Spaceship to a vecotr
+                checkingProjectiles.push_back(i);
             }
         }
         for (int i=0;i<checkingProjectiles.size();i++)
         {
             enemyLasers.erase(enemyLasers.begin()+(checkingProjectiles[i]-i));
         }
+           
 
-                       
-//       // end the current frame
+       // end the current frame
        window.display();
            if (player.isShot)
            {

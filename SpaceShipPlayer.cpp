@@ -11,71 +11,80 @@ using namespace std;
 class spaceShip
 {
     
-//default constructor
-    spaceShip() {
-        
-    }
+public:
     
-    //Constructor
-    // using the same logic as your enemy
-    public:
-    //have to make this public so you can move it
-    bool isShot;
     sf::Sprite pSprite;
+    sf::Texture pTexture;
+    bool isShot;
     
-    //these  things are to make fluid movement
+    // Member variables for smooth movement
     float velocity;
     float maxPostiveVelocity=20;
     float maxNegativeVelocity=-20;
     float postiveAccleration=2;
     float negativeAccleration=-2;
-    // setting to zero function so it looks cool
+      
+    
+    /* Default Constructor */
+    spaceShip() {
+        
+    }
+    
+    /* Constructor */
+    spaceShip(string imgPath, float x, float y)
+    {
+        // If image for texture not found, print an error
+        if (!pTexture.loadFromFile(imgPath))
+        {
+            cout << "Error! Cannot find image SpaceShip." << endl;
+        }
+        
+        // Set the texture for the sprite
+        pSprite.setTexture(pTexture);
+           
+        // Set the size of the sprite
+        pSprite.setScale(sf::Vector2f(0.1,0.1));
+           
+        // Set the position of the sprite
+        pSprite.setPosition(x, y);
+           
+    }
+    
+    // Decelerate Spaceship smoothly
     void velocityToZero()
     {
         if (velocity>0)
         {
-            //the co mputer itterates to fast for this to be bigger
             velocity*=.75;
         }
+        
         if(velocity<0)
         {
             velocity*=.75;
         }
-        
-        
-    }
-    void checkBoundandMove(float x)
-    {
-        //the 25 is to keep it in the window you see
-        if( pSprite.getPosition().x<25)
-        {
-            //moving 0 didnt work so I FORCED IT TO BE THERE
-          pSprite.setPosition(25,1400);
-        }
-        //the minus is to keep it in the window you see
-        else if (pSprite.getPosition().x>x-125)
-        {
-            pSprite.setPosition(x-125,1400);
-        }
-        pSprite.move(velocity, 0);
-    }
-    spaceShip(string imgPath, float x, float y) {
-        // If image for texture not found, print an error
-        if (!pTexture.loadFromFile(imgPath)) {
-            cout << "Error! Cannot find image SpaceShip." << endl;
-        }
-        // Set the texture for the sprite
-        pSprite.setTexture(pTexture);
-        
-        // Set the size of the sprite
-        pSprite.setScale(sf::Vector2f(0.1,0.1));
-        
-        // Set the position of the sprite
-        pSprite.setPosition(x, y);
-        
+    
     }
     
-    /* Draw sprite to a given window reference*/
+    // Ensures spaceship stays within bounds of window, move spaceship
+    void checkBoundandMove(float x)
+    {
+        // if spaceship hits left side of screen
+        if( pSprite.getPosition().x<25)
+        {
+          // Force Spaceship to remain in position
+          pSprite.setPosition(25,1400);
+        }
+        // If spaceship hits the right side of the screen
+        else if (pSprite.getPosition().x>x-125)
+        {
+            // Force spaceship to remain in position
+            pSprite.setPosition(x-125,1400);
+        }
+        
+        pSprite.move(velocity, 0);
+    }
+    
+    /* Draw Spaceship to a given window reference*/
     void drawSpaceShip(sf::RenderWindow &window)
     {
         if(isShot==false)
@@ -83,11 +92,5 @@ class spaceShip
         window.draw(pSprite);
         }
     }
-    
-private:
-    
-    sf::Texture pTexture;
-    
-    
 };
 
