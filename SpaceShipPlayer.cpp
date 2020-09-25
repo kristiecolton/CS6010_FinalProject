@@ -72,7 +72,7 @@ class spaceShip
         
         // Set the position of the sprite
         pSprite.setPosition(x, y);
-        
+        isShot=false;
     }
     
     /* Draw sprite to a given window reference*/

@@ -41,7 +41,7 @@ public:
         
         // Set the position of the sprite
         pSprite.setPosition(x, y);
-        
+        isShot=false;
     }
     //For Shooting
        bool randomGeneratorForEnemies()

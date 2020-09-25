@@ -12,11 +12,53 @@
 #include "Sounds.cpp"
 int main()
 {
+    
     // create the window
     float windowX=2800;
     float windowY=3000;
+    bool endgame=false;
+    while (endgame==false)
+    {
+
+    galacticaGame game=galacticaGame("background.png","Pacifico.ttf",windowX,windowY);
+    sf::RenderWindow windowstarts(sf::VideoMode(windowX, windowY), "Start Window");
+    sf::Music intromusic;
+            if (!intromusic.openFromFile("underground-town.ogg"))
+            {
+               return -1; // error
+            }
+           intromusic.play();
+           intromusic.setVolume(60);
+        while (windowstarts.isOpen())
+        {
+           
+            
+            sf::Event event;
+            while (windowstarts.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    windowstarts.close();
+                }
+                if (event.type == sf::Event::KeyPressed)
+                {
+
+                      
+                    if (event.key.code==sf::Keyboard::D)
+                    {
+                        windowstarts.close();
+                    }
+                }
+                
+                
+            }
+             windowstarts.draw(game.pSprite);
+            windowstarts.draw(game.text);
+            windowstarts.draw(game.starttxt);
+            windowstarts.display();
+        }
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "My window");
-    galacticaGame game;
+    intromusic.stop();
     sf::Music music;
     if (!music.openFromFile("unprepared.ogg"))
         return -1; // error
@@ -39,7 +81,7 @@ int main()
         Enemy myEnemy;
         if (i<10)
         {
-        myEnemy = Enemy("spaceinvader.png", x, y);
+        myEnemy = Enemy("spaceinvader3.png", x, y);
              x += 200;
         }
         else if (i<19)
@@ -176,16 +218,73 @@ int main()
         }
 
                        
-//       // end the current frame
+       // end the current frame
        window.display();
            if (player.isShot)
            {
+               game.didYouWinSon=false;
                window.close();
            }
            if (game.winChecker(myEnemySquad.myEnemySquad))
            {
+               game.didYouWinSon=true;
                window.close();
            }
        }
+    
+  sf::RenderWindow windowend(sf::VideoMode(windowX, windowY), "End window");
+    galacticaGame end ("lose.png","win.png",windowX,windowY);
+    music.stop();
+    while (windowend.isOpen())
+          {
+             
+              
+              sf::Event event;
+              while (windowend.pollEvent(event))
+              {
+                  if (event.type == sf::Event::Closed)
+                  {
+                      windowend.close();
+                  }
+                  if (event.type == sf::Event::KeyPressed)
+                  {
+
+                        
+                      if (event.key.code==sf::Keyboard::D)
+                      {
+                          windowend.close();
+                      }
+                      if (event.key.code==sf::Keyboard::A)
+                       {
+                           endgame=true;
+                           windowend.close();
+                       }
+                  }
+                  
+                  
+              }
+              if (game.didYouWinSon)
+              {
+                  game.text.setString("YOU WON!\n Press D to Start Again \n Or Press A to End the Game");
+                  game.text.setPosition(1500, 600);
+                  game.text.setCharacterSize(80);
+                  game.text.setStyle( sf::Text::Regular);
+                 
+                windowend.draw(end.winSprite);
+                 windowend.draw(game.text);
+               
+              }
+              else
+              {
+                  game.text.setString("YOU SUCK!\n Press D to Start Again \n Or Press A to End the Game");
+                  game.text.setPosition(1800, 600);
+                  game.text.setCharacterSize(80);
+                  game.text.setStyle( sf::Text::Regular);
+                  windowend.draw(end.pSprite);
+                  windowend.draw(game.text);
+              }
+              windowend.display();
+          }
+    }
     return 0;
 }
